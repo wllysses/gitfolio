@@ -1,45 +1,24 @@
 import Link from "next/link";
-import { redirect } from "next/navigation";
+import { getUserData, getUserRepos } from "@/services/api";
 import { cn } from "@/lib/utils";
+import { Repo } from "@/types";
 import { Header } from "../components/header";
 import { buttonVariants } from "@/components/ui/button";
 import { Projects } from "../components/projects";
-
-interface ParamsProsp {
+import { redirect } from "next/navigation";
+interface ParamsProps {
   params: {
     slug: string;
   };
 }
 
-export interface Repo {
-  id?: number;
-  name: string;
-  html_url: string;
-  stargazers_count: number;
-  forks_count: number;
-  language: string;
-  homepage: string | null;
-}
-
-const getUserData = async (profileName: string) => {
-  const response = await fetch(`https://api.github.com/users/${profileName}`);
-  return await response.json();
-};
-
-const getUserRepos = async (profileName: string) => {
-  const response = await fetch(
-    `https://api.github.com/users/${profileName}/repos`
-  );
-  return await response.json();
-};
-
-export default async function Portfolio({ params: { slug } }: ParamsProsp) {
-  if (!slug) {
-    redirect("/");
-  }
-
+export default async function Portfolio({ params: { slug } }: ParamsProps) {
   const user = await getUserData(slug);
   const repos: Repo[] = await getUserRepos(slug);
+
+  if (!user.login || !repos) {
+    redirect("/");
+  }
 
   return (
     <>

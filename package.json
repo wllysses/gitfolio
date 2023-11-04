@@ -17,6 +17,7 @@
     "next": "14.0.1",
     "react": "^18",
     "react-dom": "^18",
+    "react-toastify": "^9.1.3",
     "tailwind-merge": "^2.0.0",
     "tailwindcss-animate": "^1.0.7",
     "tailwindcss-animated": "^1.0.1"
