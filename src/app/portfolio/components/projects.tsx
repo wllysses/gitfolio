@@ -51,7 +51,7 @@ export function Projects({ slug, totalRepos }: ProjectsProps) {
       </div>
       {totalRepos === 0 && <div>Nenhum repositório público.</div>}
 
-      {totalRepos > 8 && (
+      {totalRepos > 8 && perPage < totalRepos && (
         <Button
           size="lg"
           className="text-white"

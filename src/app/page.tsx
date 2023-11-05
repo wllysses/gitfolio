@@ -23,16 +23,17 @@ export default function Home() {
   async function handleUserExists() {
     const fetchData = await refetch();
 
-    if (fetchData.data.message === "Not Found") {
-      toast.error("Usuário não existe.");
-      return;
-    }
-
-    if (fetchData.data.message.includes("API rate limit exceeded")) {
-      toast.error(
-        "Número de requisições excedida. Tente novamente mais tarde."
-      );
-      return;
+    if (fetchData.data.message) {
+      if (fetchData.data.message === "Not Found") {
+        toast.error("Usuário não existe.");
+        return;
+      }
+      if (fetchData.data.message.includes("API rate limit exceeded")) {
+        toast.error(
+          "Número de requisições excedida. Tente novamente mais tarde."
+        );
+        return;
+      }
     }
 
     router.push(`/portfolio/${input}`);
