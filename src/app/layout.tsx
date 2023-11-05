@@ -21,7 +21,11 @@ export default function RootLayout({
   return (
     <html lang="pt-BR">
       <body className={inter.className}>
-        <ToastContainer />
+        <ToastContainer
+          pauseOnFocusLoss={false}
+          pauseOnHover={false}
+          autoClose={1000}
+        />
         <QueryProvider>{children}</QueryProvider>
       </body>
     </html>
