@@ -1,15 +1,28 @@
 "use client";
 
 import { useState } from "react";
+import { toast } from "react-toastify";
 import { useRouter } from "next/navigation";
 import { SearchIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { getUserData } from "@/services/api";
 
 export default function Home() {
   const router = useRouter();
 
   const [input, setInput] = useState<string>("");
+
+  async function handleUserExists() {
+    const user = await getUserData(input);
+
+    if (user.message === "Not Found") {
+      toast.error("Usuário não existe.");
+      return;
+    }
+
+    router.push(`/portfolio/${input}`);
+  }
 
   return (
     <main className="flex min-h-screen flex-col items-center justify-center px-4">
@@ -28,7 +41,7 @@ export default function Home() {
         />
         <Button
           size="icon"
-          onClick={() => router.push(`/portfolio/${input}`)}
+          onClick={handleUserExists}
           disabled={!input}
           className="disabled:cursor-not-allowed"
         >

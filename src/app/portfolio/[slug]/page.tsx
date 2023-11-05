@@ -1,11 +1,10 @@
 import Link from "next/link";
-import { getUserData, getUserRepos } from "@/services/api";
+import { getUserData } from "@/services/api";
 import { cn } from "@/lib/utils";
-import { Repo } from "@/types";
 import { Header } from "../components/header";
 import { buttonVariants } from "@/components/ui/button";
 import { Projects } from "../components/projects";
-import { redirect } from "next/navigation";
+
 interface ParamsProps {
   params: {
     slug: string;
@@ -14,11 +13,6 @@ interface ParamsProps {
 
 export default async function Portfolio({ params: { slug } }: ParamsProps) {
   const user = await getUserData(slug);
-  const repos: Repo[] = await getUserRepos(slug);
-
-  if (!user.login || !repos) {
-    redirect("/");
-  }
 
   return (
     <>
@@ -51,7 +45,7 @@ export default async function Portfolio({ params: { slug } }: ParamsProps) {
           />
         </section>
 
-        <Projects data={repos} />
+        <Projects slug={slug} totalRepos={user.public_repos} />
       </main>
       <footer className="p-4 text-center bg-primary text-sm">
         <p>&copy; Todos os direitos reservados</p>
