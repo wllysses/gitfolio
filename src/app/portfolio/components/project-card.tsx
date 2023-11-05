@@ -1,14 +1,8 @@
-import { Button, buttonVariants } from "@/components/ui/button";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
-import { Code2Icon, GitForkIcon, StarIcon } from "lucide-react";
 import Link from "next/link";
+import { Code2Icon, GitForkIcon, StarIcon } from "lucide-react";
 import { Repo } from "@/types";
+import { buttonVariants } from "@/components/ui/button";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
 interface ProjectCardProps extends Repo {}
 
