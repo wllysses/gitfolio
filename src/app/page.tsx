@@ -7,22 +7,38 @@ import { SearchIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { getUserData } from "@/services/api";
+import { useQuery } from "react-query";
 
 export default function Home() {
   const router = useRouter();
 
   const [input, setInput] = useState<string>("");
 
-  async function handleUserExists() {
-    const user = await getUserData(input);
+  const { isLoading, isError, refetch } = useQuery(
+    ["user"],
+    async () => getUserData(input),
+    { enabled: false }
+  );
 
-    if (user.message === "Not Found") {
+  async function handleUserExists() {
+    const fetchData = await refetch();
+
+    if (fetchData.data.message === "Not Found") {
       toast.error("Usuário não existe.");
+      return;
+    }
+
+    if (fetchData.data.message.includes("API rate limit exceeded")) {
+      toast.error(
+        "Número de requisições excedida. Tente novamente mais tarde."
+      );
       return;
     }
 
     router.push(`/portfolio/${input}`);
   }
+
+  if (isError) return <div>Algo deu errado...</div>;
 
   return (
     <main className="flex min-h-screen flex-col items-center justify-center px-4">
@@ -38,11 +54,12 @@ export default function Home() {
           type="text"
           placeholder="ex: torvalds"
           onChange={(e) => setInput(e.target.value)}
+          disabled={isLoading}
         />
         <Button
           size="icon"
           onClick={handleUserExists}
-          disabled={!input}
+          disabled={!input || isLoading}
           className="disabled:cursor-not-allowed"
         >
           <SearchIcon size={18} />
