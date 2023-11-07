@@ -1,5 +1,9 @@
+import Link from "next/link";
+import { FolderOpenDotIcon, HomeIcon, MenuIcon } from "lucide-react";
+import { cn } from "@/lib/utils";
 import { Button, buttonVariants } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
+import { Separator } from "@/components/ui/separator";
 import {
   Sheet,
   SheetContent,
@@ -7,9 +11,7 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet";
-import { cn } from "@/lib/utils";
-import { FolderOpenDotIcon, HomeIcon, MenuIcon } from "lucide-react";
-import Link from "next/link";
+import { ModeToggle } from "@/components/ui/theme-toggle";
 
 export function Header() {
   return (
@@ -33,6 +35,8 @@ export function Header() {
                 Projetos
               </Link>
             </li>
+
+            <ModeToggle />
           </ul>
         </nav>
 
@@ -69,18 +73,19 @@ export function Header() {
                 <FolderOpenDotIcon size={16} />
                 Projetos
               </Link>
-            </div>
 
-            <div className="fixed bottom-0 py-2">
+              <Separator className="my-4" />
+
               <Link
                 href="/"
-                className={cn(
-                  buttonVariants({ variant: "destructive" }),
-                  "w-full"
-                )}
+                className={cn(buttonVariants({ variant: "destructive" }))}
               >
                 Sair
               </Link>
+            </div>
+
+            <div className="fixed bottom-0 py-2">
+              <ModeToggle />
             </div>
           </SheetContent>
         </Sheet>
