@@ -8,6 +8,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { getUserData } from "@/services/api";
 import { useQuery } from "react-query";
+import { ModeToggle } from "@/components/ui/theme-toggle";
 
 export default function Home() {
   const router = useRouter();
@@ -43,6 +44,10 @@ export default function Home() {
 
   return (
     <main className="flex min-h-screen flex-col items-center justify-center px-4">
+      <header className="fixed top-4 right-4">
+        <ModeToggle />
+      </header>
+
       <h1 className="font-bold text-7xl animate-fade-right">
         Git<span className="text-primary">fólio</span>
       </h1>
