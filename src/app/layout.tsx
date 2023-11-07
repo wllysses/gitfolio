@@ -4,7 +4,9 @@ import "./globals.css";
 
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+
 import { QueryProvider } from "@/providers/queryProvider";
+import { ThemeProvider } from "@/providers/themeProvider";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -26,7 +28,14 @@ export default function RootLayout({
           pauseOnHover={false}
           autoClose={1000}
         />
-        <QueryProvider>{children}</QueryProvider>
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="system"
+          enableSystem
+          disableTransitionOnChange
+        >
+          <QueryProvider>{children}</QueryProvider>
+        </ThemeProvider>
       </body>
     </html>
   );
