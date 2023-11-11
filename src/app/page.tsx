@@ -42,7 +42,7 @@ export default function Home() {
     router.push(`/portfolio/${input}`);
   }
 
-  if (isError) return <form>Algo deu errado...</form>;
+  if (isError) return <div>Algo deu errado...</div>;
 
   return (
     <main className="flex min-h-screen flex-col items-center justify-center px-4">
