@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { FormEvent, useState } from "react";
 import { toast } from "react-toastify";
 import { useQuery } from "react-query";
 import { useRouter } from "next/navigation";
@@ -21,7 +21,9 @@ export default function Home() {
     { enabled: false }
   );
 
-  async function handleUserExists() {
+  async function handleUserExists(e: FormEvent<HTMLFormElement>) {
+    e.preventDefault();
+
     const fetchData = await refetch();
 
     if (fetchData.data.message) {
@@ -55,7 +57,10 @@ export default function Home() {
         Crie o seu portfólio com apenas um clique
       </p>
 
-      <div className="mt-6 flex w-full max-w-sm items-center space-x-2 animate-fade-up">
+      <form
+        className="mt-6 flex w-full max-w-sm items-center space-x-2 animate-fade-up"
+        onSubmit={handleUserExists}
+      >
         <Input
           type="text"
           placeholder="ex: torvalds"
@@ -64,13 +69,13 @@ export default function Home() {
         />
         <Button
           size="icon"
-          onClick={handleUserExists}
+          type="submit"
           disabled={!input || isLoading}
           className="disabled:cursor-not-allowed"
         >
           <SearchIcon size={18} />
         </Button>
-      </div>
+      </form>
 
       <footer className="text-muted-foreground text-xs fixed bottom-6">
         Desenvolvido por Wllysses Tavares
