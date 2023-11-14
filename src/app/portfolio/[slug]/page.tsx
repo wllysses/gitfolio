@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 import { getUserData } from "@/services/api";
 import { cn } from "@/lib/utils";
@@ -39,11 +40,13 @@ export default async function Portfolio({ params: { slug } }: ParamsProps) {
               Entre em contato
             </Link>
           </div>
-          <img
+          <Image
             src={user.avatar_url}
             alt="Github profile avatar"
             loading="lazy"
-            className="rounded-full border-4 border-primary max-w-xs w-full max-sm:mx-auto animate-fade-left"
+            width={340}
+            height={340}
+            className="rounded-full border-4 border-primary max-sm:mx-auto animate-fade-left"
           />
         </section>
 
