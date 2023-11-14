@@ -2,12 +2,12 @@
 
 import { useState } from "react";
 import { toast } from "react-toastify";
+import { useQuery } from "react-query";
 import { useRouter } from "next/navigation";
 import { SearchIcon } from "lucide-react";
+import { getUserData } from "@/services/api";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { getUserData } from "@/services/api";
-import { useQuery } from "react-query";
 import { ModeToggle } from "@/components/ui/theme-toggle";
 
 export default function Home() {

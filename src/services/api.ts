@@ -11,6 +11,7 @@ export const getUserRepos = async (profileName: string, perPage: number) => {
     `https://api.github.com/users/${profileName}/repos?per_page=${perPage}`,
     { cache: "no-store" }
   );
+  return await response.json();
 };
 
 export const getReposWithLanguages = async (profileName: string) => {
