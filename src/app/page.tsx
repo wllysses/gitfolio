@@ -21,9 +21,7 @@ export default function Home() {
     { enabled: false }
   );
 
-  async function handleUserExists(event: React.SyntheticEvent) {
-    event.preventDefault();
-
+  async function handleUserExists() {
     const fetchData = await refetch();
 
     if (fetchData.data.message) {
@@ -57,7 +55,7 @@ export default function Home() {
         Crie o seu portfólio com apenas um clique
       </p>
 
-      <form onSubmit={handleUserExists} className="mt-6 flex w-full max-w-sm items-center space-x-2 animate-fade-up">
+      <div className="mt-6 flex w-full max-w-sm items-center space-x-2 animate-fade-up">
         <Input
           type="text"
           placeholder="ex: torvalds"
@@ -66,13 +64,13 @@ export default function Home() {
         />
         <Button
           size="icon"
-          type="submit"
+          onClick={handleUserExists}
           disabled={!input || isLoading}
           className="disabled:cursor-not-allowed"
         >
           <SearchIcon size={18} />
         </Button>
-      </form>
+      </div>
 
       <footer className="text-muted-foreground text-xs fixed bottom-6">
         Desenvolvido por Wllysses Tavares
