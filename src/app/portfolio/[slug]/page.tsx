@@ -3,9 +3,10 @@ import Link from "next/link";
 import { getUserData } from "@/services/api";
 import { cn } from "@/lib/utils";
 import { Header } from "../components/header";
-import { buttonVariants } from "@/components/ui/button";
+import { Button, buttonVariants } from "@/components/ui/button";
 import { Projects } from "../components/projects";
 import Languages from "../components/languages";
+import { ShareButton } from "../components/share-button";
 
 interface ParamsProps {
   params: {
@@ -29,16 +30,21 @@ export default async function Portfolio({ params: { slug } }: ParamsProps) {
             <h2 className="font-bold text-5xl">{user.name}</h2>
             <p className="text-slate-400">{user.bio ?? ""}</p>
             <Languages slug={slug} />
-            <Link
-              href={!user.blog ? `https://github.com/${slug}` : user.blog}
-              target="_blank"
-              className={cn(
-                buttonVariants({ variant: "default" }),
-                "text-white max-w-[150px] mt-5"
-              )}
-            >
-              Entre em contato
-            </Link>
+            <div className="mt-5 flex items-center gap-2">
+              <Link
+                href={!user.blog ? `https://github.com/${slug}` : user.blog}
+                target="_blank"
+                className={cn(
+                  buttonVariants({ variant: "default" }),
+                  "text-white max-w-[150px]"
+                )}
+              >
+                Entre em contato
+              </Link>
+              <ShareButton
+                url={`https://my-gitfolio.vercel.app/portfolio/${slug}`}
+              />
+            </div>
           </div>
           <Image
             src={user.avatar_url}
