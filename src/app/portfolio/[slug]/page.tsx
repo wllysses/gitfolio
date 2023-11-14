@@ -4,6 +4,7 @@ import { cn } from "@/lib/utils";
 import { Header } from "../components/header";
 import { buttonVariants } from "@/components/ui/button";
 import { Projects } from "../components/projects";
+import Languages from "../components/languages";
 
 interface ParamsProps {
   params: {
@@ -26,12 +27,13 @@ export default async function Portfolio({ params: { slug } }: ParamsProps) {
             <span className="text-xl text-slate-300">Olá. Eu me chamo</span>
             <h2 className="font-bold text-5xl">{user.name}</h2>
             <p className="text-slate-400">{user.bio ?? ""}</p>
+            <Languages slug={slug} />
             <Link
               href={!user.blog ? `https://github.com/${slug}` : user.blog}
               target="_blank"
               className={cn(
                 buttonVariants({ variant: "default" }),
-                "text-white max-w-[150px] mt-4"
+                "text-white max-w-[150px] mt-5"
               )}
             >
               Entre em contato
