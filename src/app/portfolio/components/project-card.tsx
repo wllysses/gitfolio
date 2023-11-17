@@ -15,7 +15,7 @@ export function ProjectCard({
   homepage,
 }: ProjectCardProps) {
   return (
-    <Card className="hover:scale-105 hover:duration-100 hover:shadow-md hover:shadow-primary">
+    <Card className="duration-200 hover:scale-[1.02] hover:shadow-md hover:shadow-primary">
       <CardHeader>
         <CardTitle
           className="whitespace-nowrap overflow-hidden text-ellipsis"
