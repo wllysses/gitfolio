@@ -1,12 +1,11 @@
 "use client";
 
-import { useState } from "react";
-import { useQuery } from "react-query";
+import { useInfiniteQuery } from "react-query";
 import { getUserRepos } from "@/services/api";
 import { Repo } from "@/types";
 import { ProjectCard } from "./project-card";
-import { Spinner } from "./spinner";
 import { Button } from "@/components/ui/button";
+import { AiOutlineLoading3Quarters as Spinner } from "react-icons/ai";
 
 interface ProjectsProps {
   slug: string;
@@ -14,15 +13,17 @@ interface ProjectsProps {
 }
 
 export function Projects({ slug, totalRepos }: ProjectsProps) {
-  const [perPage, setPerPage] = useState(8);
-
   const {
     data: repos,
-    isLoading,
+    isFetching,
     isError,
-  } = useQuery<Repo[]>(["repos", perPage], async () =>
-    getUserRepos(slug, perPage)
-  );
+    fetchNextPage,
+    hasNextPage,
+  } = useInfiniteQuery<{ data: Repo[]; nextPage: number | null }>({
+    queryKey: ["repos"],
+    queryFn: async ({ pageParam = 1 }) => await getUserRepos(slug, pageParam),
+    getNextPageParam: (lastPage) => lastPage.nextPage,
+  });
 
   if (isError) return <div>Algo deu errado...</div>;
 
@@ -34,30 +35,34 @@ export function Projects({ slug, totalRepos }: ProjectsProps) {
       <h2 className="font-bold text-3xl text-center animate-fade-down">
         Meus <span className="text-primary">Projetos</span>
       </h2>
-      {isLoading && <Spinner />}
       <div className="w-full my-8 grid grid-cols-4 gap-4 max-lg:grid-cols-3 max-md:grid-cols-2 max-sm:grid-cols-1 animate-fade-up">
         {repos &&
-          repos?.map((repo) => (
-            <ProjectCard
-              key={repo.id}
-              name={repo.name}
-              html_url={repo.html_url}
-              stargazers_count={repo.stargazers_count}
-              forks_count={repo.forks_count}
-              language={repo.language}
-              homepage={repo.homepage}
-            />
-          ))}
+          repos.pages.map((repos) =>
+            repos.data.map((repo) => (
+              <ProjectCard
+                key={repo.id}
+                name={repo.name}
+                html_url={repo.html_url}
+                stargazers_count={repo.stargazers_count}
+                forks_count={repo.forks_count}
+                language={repo.language}
+                homepage={repo.homepage}
+              />
+            ))
+          )}
       </div>
       {totalRepos === 0 && <div>Nenhum repositório público.</div>}
-
-      {totalRepos > 8 && perPage < totalRepos && (
+      {hasNextPage && (
         <Button
           size="lg"
-          className="text-white"
-          onClick={() => setPerPage((prevState) => (prevState += 8))}
+          className="text-white w-full md:w-36"
+          onClick={() => fetchNextPage()}
         >
-          Carregar mais
+          {isFetching ? (
+            <Spinner size={20} className="animate-spin" />
+          ) : (
+            "Carregar mais"
+          )}
         </Button>
       )}
     </section>
