@@ -1,7 +1,7 @@
 "use client";
 
 import { useInfiniteQuery } from "react-query";
-import { getUserRepos } from "@/services/api";
+import { getREADMERepos, getRepoREADME, getUserRepos } from "@/services/api";
 import { Repo } from "@/types";
 import { ProjectCard } from "./project-card";
 import { Button } from "@/components/ui/button";
@@ -21,7 +21,12 @@ export function Projects({ slug, totalRepos }: ProjectsProps) {
     hasNextPage,
   } = useInfiniteQuery<{ data: Repo[]; nextPage: number | null }>({
     queryKey: ["repos"],
-    queryFn: async ({ pageParam = 1 }) => await getUserRepos(slug, pageParam),
+    queryFn: async ({ pageParam = 1 }) => {
+      const customREADME = await getREADMERepos(slug);
+      if (customREADME.data.length > 0) return customREADME;
+
+      return await getUserRepos(slug, pageParam);
+    },
     getNextPageParam: (lastPage) => lastPage.nextPage,
   });
 
